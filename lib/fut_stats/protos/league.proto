@@ -1,0 +1,4 @@
+message League{
+    required string league = 1;
+    required string season = 2;
+}

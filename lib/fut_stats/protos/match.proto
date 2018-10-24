@@ -1,0 +1,12 @@
+message  Match{
+    required string m_date = 1;
+    required string home_team = 2; 
+    required string away_team = 3;
+    required int32 hthg = 4;
+    required int32 htag = 5;
+    required int32 fthg = 6;
+    required int32 ftag = 7;
+    required string htr = 8;
+    required string ftr = 9;
+    optional League league = 10;
+}
