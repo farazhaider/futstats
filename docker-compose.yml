@@ -1,0 +1,25 @@
+version: '3'
+
+services:
+  db:
+    image: postgres:10-alpine
+    volumes: 
+    - ./tmp/db:/var/lib/postgresql/data
+    environment:
+      POSTGRES_PASSWORD: postgres
+    restart: always
+
+  web:
+    build: .
+    image: haider/fut-stats
+    ports:
+      - "4000:4000"
+    depends_on:
+      - seeder
+
+  seeder:
+    build: .
+    image: haider/fut-stats
+    depends_on:
+      - db
+    command: ["./wait-for-it.sh", "db:5432", "--", "mix", "ecto.setup"]

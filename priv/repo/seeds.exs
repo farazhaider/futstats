@@ -10,4 +10,5 @@
 # We recommend using the bang functions (`insert!`, `update!`
 # and so on) as they will fail if something goes wrong.
 
+FutStats.Repo.delete_all FutStats.Match
 File.stream!("Data.csv") |> FutStats.Utils.insert_records
