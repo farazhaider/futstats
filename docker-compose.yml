@@ -8,14 +8,29 @@ services:
     environment:
       POSTGRES_PASSWORD: postgres
     restart: always
+    networks:
+      - backend
 
   web:
     build: .
     image: haider/fut-stats
     ports:
-      - "4000:4000"
+      - 4000
+    environment:
+      SERVICE_PORTS : 4000
+    deploy:
+     replicas: 3
+     update_config:
+       parallelism: 3
+       delay: 10s
+     restart_policy:
+       condition: on-failure
+       max_attempts: 3
+       window: 120s
     depends_on:
       - seeder
+    networks:
+      - backend
 
   seeder:
     build: .
@@ -23,3 +38,26 @@ services:
     depends_on:
       - db
     command: ["./wait-for-it.sh", "db:5432", "--", "mix", "ecto.setup"]
+    networks:
+      - backend
+
+  
+  proxy:
+    image: dockercloud/haproxy
+    depends_on:
+      - web
+    environment:
+      - BALANCE=leastconn
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock
+    ports:
+      - 80:80
+    networks:
+      - backend
+    deploy:
+      placement:
+        constraints: [node.role == manager]
+  
+networks:
+  backend:
+    driver: overlay
