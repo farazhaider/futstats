@@ -34,7 +34,7 @@ defmodule FutStats.Application do
 
   def setup_probes() do
       {:ok, _} = Application.ensure_all_started(:instruments)
-      interval = 10_000
+      interval = 3_000
   
       Instruments.Probe.define(
         "erlang.process_count",
