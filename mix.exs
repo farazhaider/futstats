@@ -41,7 +41,9 @@ defmodule FutStats.Mixfile do
       {:cowboy, "~> 1.0"},
       {:plug_cowboy, "~> 1.0"},
       {:csv, "~> 2.0.0"},
-      {:exprotobuf, "~> 1.2"}
+      {:exprotobuf, "~> 1.2"},
+      {:distillery, "~> 2.0"},
+      {:instruments, "~> 1.0"}
     ]
   end
 

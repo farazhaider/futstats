@@ -22,6 +22,18 @@ config :logger, :console,
   format: "$time $metadata[$level] $message\n",
   metadata: [:user_id]
 
+# Statix configuration
+config :statix,
+  prefix: "#{Mix.env}",
+  host: "statsd",
+  port: 8125
+
+# Instruments configuration
+config :instruments,
+  fast_counter_report_interval: 1000,
+  probe_prefix: "probes",
+  statsd_port: 8125
+
 # Import environment specific config. This must remain at the bottom
 # of this file so it overrides the configuration defined above.
 import_config "#{Mix.env}.exs"

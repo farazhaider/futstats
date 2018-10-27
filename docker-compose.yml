@@ -58,6 +58,28 @@ services:
       placement:
         constraints: [node.role == manager]
   
+  grafana:
+    image: grafana/grafana
+    restart: always
+    ports:
+      - 3000:3000
+    networks:
+     - backend
+
+  statsd:
+    image: graphiteapp/graphite-statsd
+    restart: always
+    ports:
+      - 3100:80
+      - 8125:8125
+      - 8126:8126
+    volumes:
+      - ./tmp/graphite/configs:/opt/graphite/conf
+      - ./tmp/graphite/data:/opt/graphite/storage
+      - ./tmp/statsd:/opt/statsd
+    networks:
+      - backend
+
 networks:
   backend:
     driver: overlay

@@ -3,7 +3,6 @@ defmodule FutStatsWeb.MatchController do
 
     def matches_for_league_season(conn, %{"league" => league, "season" => season, "format" => format}) do
         data = FutStats.Queries.Matches.list_matches_for_league_season(league, season)
-        IO.inspect format
         case format do
             "proto" -> render(conn, "index.proto", matches: data)
             _ -> render(conn, "index.json", matches: data)
