@@ -3,6 +3,7 @@ defmodule FutStatsWeb.Router do
 
   pipeline :api do
     plug :accepts, ["json"]
+    plug Plugs.Metrics
   end
 
   scope "/api", FutStatsWeb do

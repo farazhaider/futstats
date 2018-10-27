@@ -43,4 +43,5 @@ config :fut_stats, FutStats.Repo,
   password: "postgres",
   database: "postgres",
   hostname: "db",
-  pool_size: 10
+  pool_size: 10,
+  loggers: [{FutStats.Repo.Metrics, :record, []}]

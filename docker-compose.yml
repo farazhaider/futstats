@@ -37,6 +37,7 @@ services:
     image: haider/fut-stats
     depends_on:
       - db
+      - statsd
     command: ["./wait-for-it.sh", "db:5432", "--", "mix", "ecto.setup"]
     networks:
       - backend
