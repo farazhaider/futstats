@@ -25,7 +25,8 @@ services:
        delay: 10s
      restart_policy:
        condition: on-failure
-       window: 20s
+       delay: 10s
+       window: 30s
     depends_on:
       - seeder
     command: ["./wait-for-it.sh", "statsd:8125", "--", "mix", "phx.server"]
@@ -41,8 +42,8 @@ services:
     deploy:
       restart_policy:
        condition: on-failure
-       delay: 5s
-       window: 20s
+       delay: 10s
+       window: 30s
     command: ["./wait-for-it.sh", "db:5432", "--", "mix", "ecto.setup"]
     networks:
       - backend
