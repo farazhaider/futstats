@@ -1,4 +1,16 @@
 defmodule FutStats.Utils do
+  @moduledoc """
+  Utilized by the `seed.exs` for seeding the database. Reads the `Data.csv` file as a stream,
+  maps each record to the corresponding Ecto Schema and inserts it into the database.
+  """
+
+  @doc """
+  Converts the `map` obtained from a csv line to an `Ecto.Schema`
+
+  ## Parameters
+
+    - record: `map` representing a csv line
+  """
   def insert_record(record) do
     match = %FutStats.Match{
       league: record["Div"],
@@ -25,6 +37,14 @@ defmodule FutStats.Utils do
     FutStats.Repo.insert!(match)
   end
 
+  @doc """
+  Accepts a `File.Stream` object from the `seed.exs` script and calls `insert_record/1` 
+  for each entry.
+
+  ## Parameters
+
+    - csv_stream: A `File.Stream`
+  """
   def insert_records(csv_stream) do
     csv_stream
     |> Stream.map(&(&1))

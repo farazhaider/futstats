@@ -1,4 +1,8 @@
 defmodule FutStatsWeb.Plugs.Metrics do
+  @moduledoc """
+    Plug which intercepts the request and records the response time and counts.
+    Utilizes `Plug.Conn.register_before_send/2`
+  """
   
   use Instruments
 

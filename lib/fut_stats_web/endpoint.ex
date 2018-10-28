@@ -1,4 +1,5 @@
 defmodule FutStatsWeb.Endpoint do
+  @moduledoc false
   use Phoenix.Endpoint, otp_app: :fut_stats
 
   socket "/socket", FutStatsWeb.UserSocket

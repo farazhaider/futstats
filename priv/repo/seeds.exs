@@ -10,5 +10,8 @@
 # We recommend using the bang functions (`insert!`, `update!`
 # and so on) as they will fail if something goes wrong.
 
+#Ensures the database is clean before inserting data
 FutStats.Repo.delete_all FutStats.Match
+
+#Opens the data file as a stream and calls the utility function
 File.stream!("Data.csv") |> FutStats.Utils.insert_records
