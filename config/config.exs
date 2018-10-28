@@ -30,7 +30,7 @@ config :statix,
 
 # Instruments configuration
 config :instruments,
-  fast_counter_report_interval: 1000,
+  fast_counter_report_interval: 5000,
   probe_prefix: "probes",
   statsd_port: 8125
 
