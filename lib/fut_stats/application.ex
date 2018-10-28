@@ -11,11 +11,12 @@ defmodule FutStats.Application do
       # Start the Ecto repository
       supervisor(FutStats.Repo, []),
       # Start the endpoint when the application starts
-      supervisor(FutStatsWeb.Endpoint, []),
+      supervisor(FutStatsWeb.Endpoint, [])
       # Start your own worker by calling: FutStats.Worker.start_link(arg1, arg2, arg3)
       # worker(FutStats.Worker, [arg1, arg2, arg3]),
     ]
 
+    # Setup Instrument probes for monitoring the beam metrics
     setup_probes()
 
     # See https://hexdocs.pm/elixir/Supervisor.html
@@ -31,39 +32,37 @@ defmodule FutStats.Application do
     :ok
   end
 
-
   def setup_probes() do
-      {:ok, _} = Application.ensure_all_started(:instruments)
-      interval = 10_000
-  
-      Instruments.Probe.define(
-        "erlang.process_count",
-        :gauge,
-        mfa: {:erlang, :system_info, [:process_count]},
-        report_interval: interval
-      )
-  
-      Instruments.Probe.define(
-        "erlang.memory",
-        :gauge,
-        mfa: {:erlang, :memory, []},
-        keys: [:total, :atom, :processes],
-        report_interval: interval
-      )
-  
-      Instruments.Probe.define(
-        "erlang.statistics.run_queue",
-        :gauge,
-        mfa: {:erlang, :statistics, [:run_queue]},
-        report_interval: interval
-      )
-  
-      Instruments.Probe.define(
-        "erlang.system_info.process_count",
-        :gauge,
-        mfa: {:erlang, :system_info, [:process_count]},
-        report_interval: interval
-      )
-  end
+    {:ok, _} = Application.ensure_all_started(:instruments)
+    interval = 10_000
 
+    Instruments.Probe.define(
+      "erlang.process_count",
+      :gauge,
+      mfa: {:erlang, :system_info, [:process_count]},
+      report_interval: interval
+    )
+
+    Instruments.Probe.define(
+      "erlang.memory",
+      :gauge,
+      mfa: {:erlang, :memory, []},
+      keys: [:total, :atom, :processes],
+      report_interval: interval
+    )
+
+    Instruments.Probe.define(
+      "erlang.statistics.run_queue",
+      :gauge,
+      mfa: {:erlang, :statistics, [:run_queue]},
+      report_interval: interval
+    )
+
+    Instruments.Probe.define(
+      "erlang.system_info.process_count",
+      :gauge,
+      mfa: {:erlang, :system_info, [:process_count]},
+      report_interval: interval
+    )
+  end
 end
