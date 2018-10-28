@@ -25,10 +25,10 @@ services:
        delay: 10s
      restart_policy:
        condition: on-failure
-       max_attempts: 3
-       window: 120s
+       window: 20s
     depends_on:
       - seeder
+    command: ["./wait-for-it.sh", "statsd:8125", "--", "mix", "phx.server"]
     networks:
       - backend
 
@@ -38,6 +38,11 @@ services:
     depends_on:
       - db
       - statsd
+    deploy:
+      restart_policy:
+       condition: on-failure
+       delay: 5s
+       window: 20s
     command: ["./wait-for-it.sh", "db:5432", "--", "mix", "ecto.setup"]
     networks:
       - backend
@@ -67,8 +72,9 @@ services:
     networks:
      - backend
 
+# official docker image is buggy, fix the volume mounting issue
   statsd:
-    image: graphiteapp/graphite-statsd
+    image: graphiteapp/graphite-statsd:latest
     restart: always
     ports:
       - 3100:80
