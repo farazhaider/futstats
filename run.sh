@@ -1,4 +1,4 @@
-chmod +x wait_for_it.sh
+chmod +x wait-for-it.sh
 
 # Clean the volumes if present
 rm -rf ./tmp
