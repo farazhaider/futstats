@@ -1,0 +1,189 @@
+{
+  "swagger": "2.0",
+  "paths": {
+    "/api/matches_for_league_season": {
+      "get": {
+        "tags": [
+          "Match"
+        ],
+        "summary": "List of matches",
+        "responses": {
+          "200": {
+            "schema": {
+              "$ref": "#/definitions/Matches"
+            },
+            "description": "Ok"
+          }
+        },
+        "parameters": [
+          {
+            "type": "string",
+            "required": true,
+            "name": "league",
+            "in": "path",
+            "description": "League for the match"
+          },
+          {
+            "type": "string",
+            "required": true,
+            "name": "season",
+            "in": "path",
+            "description": "Season for the match"
+          },
+          {
+            "type": "string",
+            "required": true,
+            "name": "format",
+            "in": "path",
+            "description": "Type of response: json or proto"
+          }
+        ],
+        "operationId": "FutStatsWeb.MatchController.matches_for_league_season",
+        "description": "List of matches for a league and season"
+      }
+    },
+    "/api/leagues_with_season": {
+      "get": {
+        "tags": [
+          "League"
+        ],
+        "summary": "List of league and season pairs",
+        "responses": {
+          "200": {
+            "schema": {
+              "$ref": "#/definitions/Leagues"
+            },
+            "description": "Ok"
+          }
+        },
+        "parameters": [
+          {
+            "type": "string",
+            "required": true,
+            "name": "format",
+            "in": "path",
+            "description": "Type of response: json or proto"
+          }
+        ],
+        "operationId": "FutStatsWeb.LeagueController.leagues_with_season",
+        "description": "List of unique league and season pairs"
+      }
+    }
+  },
+  "info": {
+    "version": "0.0.1",
+    "title": "FutStats",
+    "host": "35.231.29.153"
+  },
+  "host": "localhost:4000",
+  "definitions": {
+    "Matches": {
+      "type": "array",
+      "title": "Matches",
+      "items": {
+        "$ref": "#/definitions/Match"
+      },
+      "description": "List of matches"
+    },
+    "Match": {
+      "type": "object",
+      "title": "Match",
+      "required": [
+        "ftr",
+        "htr",
+        "ftag",
+        "fthg",
+        "htag",
+        "hthg",
+        "away_team",
+        "home_team",
+        "date"
+      ],
+      "properties": {
+        "htr": {
+          "type": "string",
+          "description": "Half time result"
+        },
+        "hthg": {
+          "type": "integer",
+          "description": "Half time home team goals"
+        },
+        "htag": {
+          "type": "integer",
+          "description": "Half time away team goals"
+        },
+        "home_team": {
+          "type": "string",
+          "description": "The home team"
+        },
+        "ftr": {
+          "type": "string",
+          "description": "Full time result"
+        },
+        "fthg": {
+          "type": "integer",
+          "description": "Full time home team goals"
+        },
+        "ftag": {
+          "type": "integer",
+          "description": "Full time away team goals"
+        },
+        "date": {
+          "type": "string",
+          "description": "Match's date of play"
+        },
+        "away_team": {
+          "type": "string",
+          "description": "The away team"
+        }
+      },
+      "example": {
+        "htr": "H",
+        "hthg": 3,
+        "htag": 1,
+        "home_team": "Barcelona",
+        "ftr": "H",
+        "fthg": 6,
+        "ftag": 2,
+        "date": "SP1",
+        "away_team": "Betis"
+      },
+      "description": "Details of a match"
+    },
+    "Leagues": {
+      "type": "array",
+      "title": "Leagues",
+      "items": {
+        "$ref": "#/definitions/League"
+      },
+      "example": {
+        "season": "201617",
+        "league": "SP1"
+      },
+      "description": "List of unique League and Season pairs"
+    },
+    "League": {
+      "type": "object",
+      "title": "League",
+      "required": [
+        "season",
+        "league"
+      ],
+      "properties": {
+        "season": {
+          "type": "string",
+          "description": "Season for the league"
+        },
+        "league": {
+          "type": "string",
+          "description": "Name of the league"
+        }
+      },
+      "example": {
+        "season": "201617",
+        "league": "SP1"
+      },
+      "description": "A League and Season pair"
+    }
+  }
+}
