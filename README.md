@@ -17,6 +17,8 @@ Before we can start seeding or querying the database we need to run the migratio
 
 Logging and Metrics are done using Elixir's native logger and the `Instruments` package. `StatsD` is used for the collection of the time series metrics data. In `Application.ex`, several important probes have been defined to measure `Beam` performance and resource usage. API response times and request rates are calculated by a custom plug `Plugs.Metrics`. Ecto query performance measured by a custom ecto logger `Repo.Metrics` which writes the query count and response times to the StatsD server.
 
+Swagger has been used as the way to document the HTTP APIs and ex_doc has been used to make the documentation
+
 
 ## Running the Application
 
@@ -47,6 +49,7 @@ You may have to wait for a few seconds until all the containers have successfull
 
 - The FutStats API would be live at `http://<Host-Address>/api/`
 - Graphite console at `http://<Host-Address>:3100`
-- Grafana console at `http://<Host-Adress>:3000`
+- Grafana console at `http://<Host-Address>:3000`
+- Swagger API console at `http://<Host-Address>/swagger/`
 
 Host-Address could be `localhost` if running locally or an external IP if running in a cloud VM.
