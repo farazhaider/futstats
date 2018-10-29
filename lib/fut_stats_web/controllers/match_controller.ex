@@ -51,9 +51,9 @@ defmodule FutStatsWeb.MatchController do
         summary "List of matches"
         description "List of matches for a league and season"
         parameters do
-            league :path, :string, "League for the match", required: true
-            season :path, :string, "Season for the match", required: true
-            format :path, :string, "Type of response: json or proto", required: true
+            league :query, :string, "League for the match", required: true
+            season :query, :string, "Season for the match", required: true
+            format :query, :string, "Type of response: json or proto", required: true
         end
         response 200, "Ok", Schema.ref(:Matches)
     end

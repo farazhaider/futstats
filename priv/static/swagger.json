@@ -20,21 +20,21 @@
             "type": "string",
             "required": true,
             "name": "league",
-            "in": "path",
+            "in": "query",
             "description": "League for the match"
           },
           {
             "type": "string",
             "required": true,
             "name": "season",
-            "in": "path",
+            "in": "query",
             "description": "Season for the match"
           },
           {
             "type": "string",
             "required": true,
             "name": "format",
-            "in": "path",
+            "in": "query",
             "description": "Type of response: json or proto"
           }
         ],
@@ -61,7 +61,7 @@
             "type": "string",
             "required": true,
             "name": "format",
-            "in": "path",
+            "in": "query",
             "description": "Type of response: json or proto"
           }
         ],

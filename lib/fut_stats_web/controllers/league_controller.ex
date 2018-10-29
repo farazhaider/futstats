@@ -13,7 +13,7 @@ defmodule FutStatsWeb.LeagueController do
         summary "List of league and season pairs"
         description "List of unique league and season pairs"
         parameters do
-            format :path, :string, "Type of response: json or proto", required: true
+            format :query, :string, "Type of response: json or proto", required: true
         end
         response 200, "Ok", Schema.ref(:Leagues)
     end
