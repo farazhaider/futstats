@@ -20,7 +20,8 @@ defmodule FutStats.Mixfile do
         # The main page in the docs
         main: "FutStats",
         extras: ["README.md"],
-        groups_for_modules: groups_for_modules()
+        groups_for_modules: groups_for_modules(),
+        output: "docs"
       ]
     ]
   end

@@ -1,0 +1,134 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="x-ua-compatible" content="ie=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="generator" content="ExDoc v0.19.1">
+    <title>Derivco Assignment - FutStats – FutStats v0.0.1</title>
+    <link rel="stylesheet" href="dist/app-240d7fc7e5.css" />
+    <script src="dist/sidebar_items-b2bf676e98.js"></script>
+    
+  </head>
+  <body data-type="extras">
+    <script>try { if(localStorage.getItem('night-mode')) document.body.className += ' night-mode'; } catch (e) { }</script>
+<div class="main">
+<button class="sidebar-button sidebar-toggle">
+  <span class="icon-menu" aria-hidden="true"></span>
+  <span class="sr-only">Toggle Sidebar</span>
+</button>
+<button class="sidebar-button night-mode-toggle">
+  <span class="icon-theme" aria-hidden="true"></span>
+  <span class="sr-only">Toggle Theme</span>
+</button>
+<section class="sidebar">
+
+  <a href="https://github.com/farazhaider/futstats" class="sidebar-projectLink">
+    <div class="sidebar-projectDetails">
+      <h1 class="sidebar-projectName">
+FutStats      </h1>
+      <h2 class="sidebar-projectVersion">
+        v0.0.1
+      </h2>
+    </div>
+  </a>
+
+  <form class="sidebar-search" action="search.html">
+    <button type="submit" class="search-button">
+      <span class="icon-search" aria-hidden="true"></span>
+    </button>
+    <input name="q" type="text" id="search-list" class="search-input" placeholder="Search" aria-label="Search" autocomplete="off" />
+  </form>
+
+  <ul class="sidebar-listNav">
+    <li><a id="extras-list" href="#full-list">Pages</a></li>
+
+      <li><a id="modules-list" href="#full-list">Modules</a></li>
+
+
+  </ul>
+  <div class="gradient"></div>
+  <ul id="full-list" class="sidebar-fullList"></ul>
+</section>
+
+<section class="content">
+  <div class="content-outer">
+    <div id="content" class="content-inner">
+
+
+<h1>Derivco Assignment - FutStats</h1>
+<h2 id="architecture" class="section-heading">
+  <a href="#architecture" class="hover-link"><span class="icon-link" aria-hidden="true"></span></a>
+  Architecture
+</h2>
+
+<p>A high level view of the solution is given beow.</p>
+<p><img src="architecture.png" alt=""/></p>
+<h2 id="design" class="section-heading">
+  <a href="#design" class="hover-link"><span class="icon-link" aria-hidden="true"></span></a>
+  Design
+</h2>
+
+<p>The application is based on Phoenix Framework which internally uses Plug and Cowboy. So the app is a set of models, controllers and their respective views.</p>
+<p>The API routes have been defined in the <code class="inline">Router.ex</code> file. Every incoming request to the server goes through a plug pipeline. The response is rendered according to the views associated with each controller. Views are defined in <code class="inline">fut_stats_web/views</code> while the controllers reside in <code class="inline">fut_stats_web/controllers</code>. The API is capable of sending <code class="inline">JSON</code> as well as <code class="inline">protbuf</code> responses.</p>
+<p>The application uses <code class="inline">ecto</code> to communicate with a Postgres Database. Ecto supports <code class="inline">schemas</code> which directly map to database tables. The schema for the football data resides in <code class="inline">fut_stats/models</code>.
+Before we can start seeding or querying the database we need to run the migrations. <code class="inline">ecto.migrate</code> maps a schema to a migration script which is executed to create a database table. The database is seeded using the <code class="inline">seed.exs</code> script. This process is done inside a separate ephemeral container called a seeder to keep the architecture simple.</p>
+<p>Logging and Metrics are done using Elixir’s native logger and the <a href="https://hexdocs.pm/instruments/1.0.0/Instruments.html"><code class="inline">Instruments</code></a> package. <code class="inline">StatsD</code> is used for the collection of the time series metrics data. In <code class="inline">Application.ex</code>, several important probes have been defined to measure <code class="inline">Beam</code> performance and resource usage. API response times and request rates are calculated by a custom plug <code class="inline">Plugs.Metrics</code>. Ecto query performance measured by a custom ecto logger <code class="inline">Repo.Metrics</code> which writes the query count and response times to the StatsD server.</p>
+<p>Swagger has been used as the way to document the HTTP APIs and ex_doc has been used to make the documentation</p>
+<h2 id="running-the-application" class="section-heading">
+  <a href="#running-the-application" class="hover-link"><span class="icon-link" aria-hidden="true"></span></a>
+  Running the Application
+</h2>
+
+<p>The application comes bundled with a <code class="inline">.Dockerfile</code> and a <code class="inline">docker-compose.yml</code> file for easier deployments.</p>
+<p>Make sure you have <code class="inline">Docker</code> and <code class="inline">Docker Compose</code> installed.</p>
+<p>Initialize a Docker swarm on your machine if you haven’t so already.</p>
+<p><code class="inline">docker swarm init</code></p>
+<p>(In case if the command prompts you for specifying an IP run <code class="inline">docker-machine ls</code> and input the default IP)</p>
+<p> Then execute the following command to run a shell script. (Make sure it is executable, if not run <code class="inline">chmod +x run.sh</code>)</p>
+<p><code class="inline">./run.sh</code></p>
+<p>This script does the following</p>
+<ul>
+<li>delete any existing host volumes for the docker-compose.yml and create new ones
+</li>
+<li>delete any existing stack with the name <code class="inline">futstat</code>
+</li>
+<li>build the docker-compose.yml
+</li>
+<li>deploy a stack named <code class="inline">futstat</code> using the docker-compose.yml
+</li>
+</ul>
+<p>These steps are only required the first time you are deploying the stack, in the subsequent turns you could just do the deploy stack step and it would work fine. And feel free to map the host ports to different one’s if any of them are occupied by existing services.</p>
+<p>You may have to wait for a few seconds until all the containers have successfully started.(The seeder service seeds the database with the test data)</p>
+<ul>
+<li>The FutStats API would be live at <code class="inline">http://&lt;Host-Address&gt;/api/</code>
+</li>
+<li>Graphite console at <code class="inline">http://&lt;Host-Address&gt;:3100</code>
+</li>
+<li>Grafana console at <code class="inline">http://&lt;Host-Address&gt;:3000</code>
+</li>
+<li>Swagger API console at <code class="inline">http://&lt;Host-Address&gt;/swagger/</code>
+</li>
+</ul>
+<p>Host-Address could be <code class="inline">localhost</code> if running locally or an external IP if running in a cloud VM.</p>
+      <footer class="footer">
+        <p>
+          <span class="line">
+            Built using
+            <a href="https://github.com/elixir-lang/ex_doc" title="ExDoc" target="_blank" rel="help noopener">ExDoc</a> (v0.19.1),
+          </span>
+          <span class="line">
+            designed by
+            <a href="https://twitter.com/dignifiedquire" target="_blank" rel="noopener" title="@dignifiedquire">Friedel Ziegelmayer</a>.
+            </span>
+        </p>
+      </footer>
+    </div>
+  </div>
+</section>
+</div>
+  <script src="dist/app-a0c90688fa.js"></script>
+  
+  </body>
+</html>
+
