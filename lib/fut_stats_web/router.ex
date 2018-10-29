@@ -27,7 +27,7 @@ defmodule FutStatsWeb.Router do
 
   scope "/swagger" do
     forward "/", PhoenixSwagger.Plug.SwaggerUI,
-      otp_app: :distance_tracker,
+      otp_app: :fut_stats,
       swagger_file: "swagger.json",
       disable_validator: true
   end
