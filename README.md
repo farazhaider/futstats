@@ -1,4 +1,4 @@
-# Derivco Assignment - FutStats
+# Derivco - FutStats
 
 ## Architecture
 
